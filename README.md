@@ -47,3 +47,28 @@ ant clean
 * [jUnit](https://junit.org/junit4/)
 * [Ant](https://ant.apache.org/)
 * [ivy](http://ant.apache.org/ivy/)
+
+Running with Gradle after migration -
+
+Clear build dir
+
+```
+gradle clean
+```
+
+Start compile
+
+```
+gradle build
+```
+
+Start unit-tests (compile)
+
+```
+gradle test
+```
+Run jar (compile, test, package)
+
+```
+gradle run 
+```
