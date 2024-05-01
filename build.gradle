@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    jcenter() // You can use any other repository you need
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    // Add more dependencies as needed
+}
+
+// Define source and test source directories
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java']
+    }
+    test {
+        java.srcDirs = ['src/test/java']
+    }
+}
+
+// Define the 'compile' task
+task compileMain(type: JavaCompile) {
+    source = [sourceSets.main.java]
+    destinationDirectory = file("${buildDir}/classes/main")
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// Define the 'testCompile' task
+task testCompile(type: JavaCompile) {
+    source = [sourceSets.test.java]
+    destinationDirectory = file("${buildDir}/classes/test")
+    classpath = sourceSets.main.output + configurations.testRuntimeClasspath
+}
+
+// Define the 'test' task
+test {
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath += sourceSets.main.runtimeClasspath
+}
+
+// Define the 'package' task
+task packageJar(type: Jar) {
+    dependsOn compileMain
+    from sourceSets.main.output
+    manifest {
+        attributes 'Main-Class': 'com.hello.HelloWorld'
+    }
+    archiveFileName = "${project.name}.jar"
+    destinationDirectory = file("${buildDir}/libs")
+}
+
+// Define the 'run' task
+task run(type: JavaExec) {
+    dependsOn packageJar
+    mainClass = 'com.hello.HelloWorld'
+    classpath = files("${buildDir}/libs/${project.name}.jar")
+}
+
+// Define the 'clean' task
+clean {
+    delete "${buildDir}"
+}
