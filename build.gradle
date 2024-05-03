@@ -1,0 +1,22 @@
+plugins {
+	id 'java'
+	id 'application'
+}
+
+version = '0.0.1-SNAPSHOT'
+
+application {
+	mainClassName = 'com.hello.HelloWorld'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'junit:junit:4.12'
+}
+
+tasks.named('test') {
+	useJUnit()
+}
